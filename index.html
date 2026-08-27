@@ -108,7 +108,7 @@ main{max-width:1180px; margin:0 auto; padding:22px 20px 80px}
 .refcard .rc-head h3 svg{color:var(--sea)}
 .refcard .rc-head .sub{font-family:"Golos Text"; font-size:11px; font-weight:600; color:var(--ink3); margin-top:3px; text-transform:uppercase; letter-spacing:.08em}
 .rc-btns{display:flex; gap:6px; padding:13px 16px; flex-wrap:wrap}
-.rc-btns button{flex:1; min-width:92px; font-family:"Golos Text"; font-weight:600; font-size:13px; background:var(--panel2); border:1px solid var(--line); color:var(--ink2); border-radius:10px; padding:9px 8px}
+.rc-btns button{flex:1 1 auto; min-width:0; font-family:"Golos Text"; font-weight:600; font-size:12px; background:var(--panel2); border:1px solid var(--line); color:var(--ink2); border-radius:10px; padding:9px 6px; white-space:nowrap}
 .rc-btns button.on{background:var(--sea); border-color:var(--sea); color:var(--sea-ink)}
 .rc-btns button:not(.on):hover{border-color:var(--sea); color:var(--ink)}
 .rc-body{padding:2px 16px 18px; border-top:1px solid var(--line); margin-top:2px}
@@ -144,7 +144,7 @@ main{max-width:1180px; margin:0 auto; padding:22px 20px 80px}
 </header>
 
 <main>
-  <p class="lead"><b>Скелет дзвінка + довідник під рукою.</b> Зліва — скрипт по кроках (привітання → навіщо → кнопка проблеми з питаннями → презентація з його слів → заперечення 5×4 → закриття). Справа — товар: <b>склад, як приймати, протипоказання</b>. Хороший менеджер нарощує скелет сам. <span class="ph">[у дужках золотим]</span> — підставляє оператор.</p>
+  <p class="lead"><b>Скрипт дзвінка + довідник під рукою.</b> Зліва — розмова по кроках: привітання → навіщо телефонуємо → кнопка проблеми з питаннями → презентація з його слів → заперечення → закриття. Справа — товар: <b>склад, як приймати, протипоказання</b>.</p>
 
   <div class="wrap">
     <!-- LEFT: SCRIPT -->
@@ -159,7 +159,7 @@ main{max-width:1180px; margin:0 auto; padding:22px 20px 80px}
       </div>
 
       <div class="step">
-        <div class="shead"><span class="snum">2</span><h2>Навіщо телефонуємо + тон</h2><span class="hint">коротка обознака</span></div>
+        <div class="shead"><span class="snum">2</span><h2>Навіщо телефонуємо + тон</h2><span class="hint">чому телефонуємо</span></div>
         <div class="sbody">
           <div class="say"><div class="lbl">Кажемо</div>
             <p>«Телефоную ось у якій справі: ми оновлюємо базу постійних клієнтів і хочемо підібрати саме те, що вам реально підійде під вашу ситуацію.»</p>
@@ -170,12 +170,12 @@ main{max-width:1180px; margin:0 auto; padding:22px 20px 80px}
       </div>
 
       <div class="step">
-        <div class="shead"><span class="snum">3</span><h2>Гілка проблеми — тиснемо кнопку</h2><span class="hint">5–10 питань</span></div>
+        <div class="shead"><span class="snum">3</span><h2>Гілка проблеми — тиснемо кнопку</h2><span class="hint">обираємо 5–7 із 12</span></div>
         <div class="sbody">
           <div class="tabs">
             <button class="tab on" data-b="potency">
               <div class="t"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>Потенція</div>
-              <div class="d">ерекція, близькість, струя, сім'явипорскування</div>
+              <div class="d">ерекція, бажання, тривалість</div>
             </button>
             <button class="tab" data-b="prostate">
               <div class="t"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Простатит</div>
@@ -183,11 +183,11 @@ main{max-width:1180px; margin:0 auto; padding:22px 20px 80px}
             </button>
           </div>
           <div class="branch on" id="b-potency">
-            <div class="qintro">Ставимо 5–7 питань, даємо виговоритись, чуємо болі:</div>
+            <div class="qintro">Обираємо 5–7 зі списку, даємо виговоритись, чуємо болі:</div>
             <div class="qlist" id="q-potency"></div>
           </div>
           <div class="branch" id="b-prostate">
-            <div class="qintro">Ставимо 5–7 питань, даємо виговоритись, чуємо болі:</div>
+            <div class="qintro">Обираємо 5–7 зі списку, даємо виговоритись, чуємо болі:</div>
             <div class="qlist" id="q-prostate"></div>
           </div>
         </div>
@@ -196,11 +196,15 @@ main{max-width:1180px; margin:0 auto; padding:22px 20px 80px}
       <div class="step">
         <div class="shead"><span class="snum">4</span><h2>Презентація — з його ж слів</h2><span class="hint">від потреби</span></div>
         <div class="sbody">
-          <div class="say"><div class="lbl">Кажемо</div>
-            <p>«Дивіться, <span class="ph">[Ім'я]</span>. З ваших слів я правильно зрозумів: у вас <span class="ph">[проблема його словами]</span>. Правильно?»</p>
-            <p>«Якраз для цього вам підійде <span class="ph">[продукт]</span> — він <span class="ph">[що робить під цю проблему]</span>. Одна баночка це 10 застосувань; вам вистачить <span class="ph">[N]</span>, це <span class="ph">[ціна]</span>.»</p>
+          <div class="say"><div class="lbl">Приклад · потенція</div>
+            <p>«Дивіться, <span class="ph">[Ім'я]</span>. З ваших слів: сила вже не та, буває через раз, і впевненості немає. Правильно?..»</p>
+            <p>«Якраз для цього RAISE. Головне — він діє одразу: капсула за годину до близькості, і працює того ж вечора. Плюс поступово повертає форму. Оплата на пошті, коли отримаєте. Базово беруть дві упаковки, це 1000 гривень.»</p>
           </div>
-          <div class="note">Спершу повторюємо його проблему його словами → потім рішення → потім ціна. Не навпаки.</div>
+          <div class="say"><div class="lbl">Приклад · простата</div>
+            <p>«Дивіться, <span class="ph">[Ім'я]</span>. З ваших слів: встаєте вночі в туалет, тягне, дискомфорт. Правильно?..»</p>
+            <p>«Тоді якраз RAISE. Тут піджеум — його традиційно беруть для підтримки простати: стає легше, спокійніше. Плюс родіола на тонус і енергію. Оплата на пошті. Базово дві упаковки, 1000 гривень.»</p>
+          </div>
+          <div class="note">Спершу повторюємо його проблему його словами → потім рішення → потім ціна. Не навпаки. Ім'я підставляє оператор.</div>
         </div>
       </div>
 
@@ -213,16 +217,13 @@ main{max-width:1180px; margin:0 auto; padding:22px 20px 80px}
         <div class="shead"><span class="snum">6</span><h2>Закриття — вибір без вибору</h2><span class="hint">завжди закриваємо</span></div>
         <div class="sbody">
           <div class="close-box"><div class="lbl">Кажемо</div>
-            <p>«По тому, що ви розповіли, вам підійде <span class="ph">[продукт]</span> — візьміть <span class="ph">[N]</span> баночок про запас. Кажіть, куди відправляти.»</p>
-            <p>«Вам зручніше взяти одразу <span class="ph">[N]</span> баночок чи почати з <span class="ph">[менше]</span>? І на яке відділення Нової Пошти?»</p>
+            <p>«По тому, що ви розповіли, вам підійде RAISE. Базово беруть дві упаковки — це 1000 гривень і найвигідніше за упаковку. Кажіть, куди відправляти.»</p>
+            <p>«Вам зручніше одразу дві упаковки чи почати з однієї за 700? На яке відділення Нової Пошти?»</p>
           </div>
           <div class="note">Не питаємо «брати чи ні», а даємо вибір між варіантами. Оплата на пошті при отриманні.</div>
         </div>
       </div>
 
-      <div class="footnote">
-        <b>Це макет-зразок для Ігоря.</b> Скелет навмисно короткий — менеджер нарощує його сам. Тексти в <span class="ph">[дужках]</span> (ім'я, проблема, продукт, ціна) підставляє оператор. Гілки, заперечення й довідник можна доповнювати.
-      </div>
     </div>
 
     <!-- RIGHT: PRODUCT REFERENCE -->
@@ -250,22 +251,32 @@ main{max-width:1180px; margin:0 auto; padding:22px 20px 80px}
 <script>
 const Q = {
   potency: [
-    "Ранкова ерекція буває? Регулярно чи рідко?",
-    "Під час близькості бувають збої — коли підводить?",
+    "Вранці ерекція буває? Часто чи рідко?",
+    "Під час близькості буває, що підводить?",
     "Ерекція тримається до кінця чи спадає?",
-    "Як напір струї при сечовипусканні — нормальний?",
-    "Сім'явипорскування не занадто швидке?",
-    "Потяг, бажання — як раніше чи знизилось?",
-    "Як часто зараз буває близькість?"
+    "Коли в туалет — напір нормальний чи слабкий?",
+    "Буває, що все закінчується занадто швидко?",
+    "Бажання, потяг — як раніше чи згасло?",
+    "Як часто зараз буває близькість?",
+    "Буває, що взагалі не виходить, хоч як старайся?",
+    "Після сорока відчуваєте, що вже не той, що був?",
+    "Через це бувають напруга чи непорозуміння з дружиною?",
+    "Уже щось пробували з цим? Допомогло?",
+    "Що для вас головне — щоб спрацювало сьогодні чи щоб надовго?"
   ],
   prostate: [
-    "Як часто встаєте вночі в туалет?",
-    "Робота сидяча чи рухлива?",
-    "Часто переохолоджуєтесь, сидите в холоді?",
-    "Є дискомфорт або тяжкість унизу живота?",
-    "Струя нормальна чи переривчаста, слабка?",
-    "Буває печіння або біль при сечовипусканні?",
-    "Раніше були застуди чи запалення по чоловічій частині?"
+    "Часто встаєте вночі в туалет? Скільки разів?",
+    "Робота сидяча чи на ногах?",
+    "Буває, що переохолоджуєтесь, сидите в холоді?",
+    "Є тяжкість або дискомфорт унизу живота?",
+    "Струмінь рівний чи слабкий, з перервами?",
+    "Буває печіння чи біль, коли в туалет?",
+    "Раніше було щось по чоловічій частині — застуди, запалення?",
+    "Відчуття, що сечовий міхур не до кінця спорожняється?",
+    "Часто тягне в туалет, а виходить мало?",
+    "Через нічні підйоми не висипаєтесь, буває втома вдень?",
+    "На чоловічій силі це теж позначилось?",
+    "Уже щось приймали від цього? Який був результат?"
   ]
 };
 
