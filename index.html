@@ -1,0 +1,371 @@
+<title>Маревіс · скрипт дозвону</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#eef3f5; --bg2:#e4ebee; --panel:#ffffff; --panel2:#f3f7f9; --line:#d6e0e5;
+  --ink:#0f2530; --ink2:#4a5f6b; --ink3:#7d909b;
+  --sea:#0e7d8c; --sea-deep:#0a5b67; --sea-soft:#dcf0f2; --sea-ink:#ffffff;
+  --gold:#b9762a; --warn:#c14a3d; --warn-soft:#fbe7e3; --warn-line:#eebcb3;
+  --shadow:0 16px 40px -22px rgba(14,60,72,.4);
+  --radius:16px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0c161b; --bg2:#101e25; --panel:#132430; --panel2:#182f3c; --line:#274150;
+    --ink:#eaf3f6; --ink2:#a7bcc6; --ink3:#728793;
+    --sea:#3bbecf; --sea-deep:#2aa0b0; --sea-soft:#123642; --sea-ink:#04171c;
+    --gold:#dda45a; --warn:#f0857a; --warn-soft:#3a1c18; --warn-line:#7a3a31;
+    --shadow:0 18px 50px -20px rgba(0,0,0,.7);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0c161b; --bg2:#101e25; --panel:#132430; --panel2:#182f3c; --line:#274150;
+  --ink:#eaf3f6; --ink2:#a7bcc6; --ink3:#728793;
+  --sea:#3bbecf; --sea-deep:#2aa0b0; --sea-soft:#123642; --sea-ink:#04171c;
+  --gold:#dda45a; --warn:#f0857a; --warn-soft:#3a1c18; --warn-line:#7a3a31;
+  --shadow:0 18px 50px -20px rgba(0,0,0,.7);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg); color:var(--ink); font-family:"Manrope",system-ui,sans-serif; font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:"Golos Text",system-ui,sans-serif; margin:0; text-wrap:balance}
+button{font-family:inherit; cursor:pointer}
+
+header{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter:blur(12px); border-bottom:1px solid var(--line)}
+.hwrap{max-width:1180px; margin:0 auto; padding:13px 20px; display:flex; align-items:center; gap:14px}
+.brand{display:flex; align-items:baseline; gap:10px; font-family:"Golos Text"}
+.brand b{font-size:20px; font-weight:800; letter-spacing:.06em; color:var(--sea)}
+.brand span{font-size:13px; color:var(--ink2); font-weight:600}
+.tbtn{margin-left:auto; background:var(--panel); border:1px solid var(--line); color:var(--ink2); border-radius:9px; padding:7px 11px; font-size:13px; font-weight:600; font-family:"Golos Text"}
+.tbtn:hover{border-color:var(--sea); color:var(--ink)}
+
+main{max-width:1180px; margin:0 auto; padding:22px 20px 80px}
+.lead{color:var(--ink2); font-size:15px; max-width:74ch; margin:2px 0 22px}
+.lead b{color:var(--ink)}
+.ph{color:var(--gold); font-weight:600; font-style:normal}
+
+.wrap{display:grid; grid-template-columns:1fr 340px; gap:22px; align-items:start}
+@media(max-width:880px){ .wrap{grid-template-columns:1fr} .right{order:-1; position:static !important} }
+
+/* ---- left: steps ---- */
+.step{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); margin-bottom:16px; overflow:hidden}
+.shead{display:flex; align-items:center; gap:13px; padding:15px 18px 0}
+.snum{font-family:"Golos Text"; font-weight:800; font-size:15px; width:29px; height:29px; flex:none; border-radius:9px; display:grid; place-items:center; background:var(--sea); color:var(--sea-ink); font-variant-numeric:tabular-nums}
+.shead h2{font-size:18px; font-weight:700; letter-spacing:-.01em}
+.shead .hint{margin-left:auto; font-family:"Golos Text"; font-size:12px; font-weight:600; color:var(--ink3)}
+.sbody{padding:13px 18px 18px}
+
+.say{background:var(--bg2); border:1px solid var(--line); border-left:3px solid var(--sea); border-radius:12px; padding:14px 16px}
+.say .lbl{font-family:"Golos Text"; font-size:10.5px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--sea); margin-bottom:8px}
+.say p{margin:0; font-size:17px; line-height:1.58; color:var(--ink); font-weight:500}
+.say p + p{margin-top:9px}
+.note{font-size:13px; color:var(--ink3); margin-top:11px; line-height:1.5}
+
+.tabs{display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap}
+.tab{flex:1; min-width:170px; text-align:left; background:var(--panel2); border:1.5px solid var(--line); border-radius:13px; padding:13px 15px; transition:.15s}
+.tab:hover{border-color:var(--sea)}
+.tab.on{background:var(--sea-soft); border-color:var(--sea)}
+.tab .t{font-family:"Golos Text"; font-weight:700; font-size:16px; color:var(--ink); display:flex; align-items:center; gap:9px}
+.tab .t svg{color:var(--sea)}
+.tab .d{font-size:12px; color:var(--ink3); margin-top:4px}
+.branch{display:none}
+.branch.on{display:block; animation:fade .2s}
+@keyframes fade{from{opacity:0; transform:translateY(5px)}to{opacity:1}}
+.qintro{font-family:"Golos Text"; font-weight:600; font-size:13.5px; color:var(--ink2); margin:2px 0 11px}
+.qlist{display:flex; flex-direction:column; gap:8px; counter-reset:q}
+.q{display:flex; gap:11px; align-items:flex-start; background:var(--panel2); border:1px solid var(--line); border-radius:11px; padding:11px 13px}
+.q::before{counter-increment:q; content:counter(q); font-family:"Golos Text"; font-weight:700; font-size:12px; color:var(--sea); background:var(--sea-soft); width:22px; height:22px; flex:none; border-radius:6px; display:grid; place-items:center; font-variant-numeric:tabular-nums}
+.q span{font-size:15.5px; line-height:1.45; color:var(--ink); padding-top:1px}
+
+.objgrid{display:flex; flex-direction:column; gap:9px}
+.obj{border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--panel2)}
+.obj > button{width:100%; display:flex; align-items:center; gap:11px; background:none; border:none; padding:13px 15px; text-align:left}
+.obj .otitle{font-family:"Golos Text"; font-weight:700; font-size:15.5px; color:var(--ink)}
+.obj .quote{font-size:12px; color:var(--ink3); font-style:italic}
+.obj .chev{margin-left:auto; color:var(--ink3); font-size:15px; transition:.2s; font-family:"Golos Text"}
+.obj.open .chev{transform:rotate(90deg); color:var(--sea)}
+.variants{display:none; padding:0 15px 14px; flex-direction:column; gap:8px}
+.obj.open .variants{display:flex}
+.variant{display:flex; gap:10px; align-items:flex-start; background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:11px 13px}
+.variant .vn{font-family:"Golos Text"; font-weight:700; font-size:11px; color:var(--sea-ink); background:var(--sea); width:22px; height:22px; flex:none; border-radius:6px; display:grid; place-items:center}
+.variant p{margin:0; font-size:15px; line-height:1.5; color:var(--ink)}
+
+.close-box{background:var(--sea-soft); border:1px solid var(--sea); border-radius:12px; padding:14px 16px}
+.close-box .lbl{font-family:"Golos Text"; font-size:10.5px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--sea-deep); margin-bottom:8px}
+.close-box p{margin:0; font-size:16.5px; line-height:1.58; color:var(--ink); font-weight:500}
+.close-box p + p{margin-top:8px}
+
+/* ---- right: reference rail ---- */
+.right{position:sticky; top:74px}
+.refcard{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden}
+.refcard .rc-head{padding:15px 16px 0}
+.refcard .rc-head h3{font-size:15px; font-weight:700; display:flex; align-items:center; gap:8px}
+.refcard .rc-head h3 svg{color:var(--sea)}
+.refcard .rc-head .sub{font-family:"Golos Text"; font-size:11px; font-weight:600; color:var(--ink3); margin-top:3px; text-transform:uppercase; letter-spacing:.08em}
+.rc-btns{display:flex; gap:6px; padding:13px 16px; flex-wrap:wrap}
+.rc-btns button{flex:1; min-width:92px; font-family:"Golos Text"; font-weight:600; font-size:13px; background:var(--panel2); border:1px solid var(--line); color:var(--ink2); border-radius:10px; padding:9px 8px}
+.rc-btns button.on{background:var(--sea); border-color:var(--sea); color:var(--sea-ink)}
+.rc-btns button:not(.on):hover{border-color:var(--sea); color:var(--ink)}
+.rc-body{padding:2px 16px 18px; border-top:1px solid var(--line); margin-top:2px}
+.rc-panel{display:none}
+.rc-panel.on{display:block; animation:fade .18s}
+.rc-panel h4{font-family:"Golos Text"; font-size:13.5px; font-weight:700; color:var(--ink); margin:15px 0 10px}
+.ing{display:flex; flex-direction:column; gap:9px}
+.ing .row{background:var(--panel2); border:1px solid var(--line); border-radius:11px; padding:11px 13px}
+.ing .row .top{display:flex; justify-content:space-between; align-items:baseline; gap:8px}
+.ing .row .nm{font-family:"Golos Text"; font-weight:700; font-size:14px; color:var(--ink)}
+.ing .row .mg{font-family:"Golos Text"; font-weight:700; font-size:12px; color:var(--sea); font-variant-numeric:tabular-nums; white-space:nowrap}
+.ing .row .tt{font-size:13.5px; color:var(--ink2); line-height:1.45; margin-top:4px}
+.rc-note{background:var(--sea-soft); border:1px solid var(--sea); border-radius:10px; padding:10px 12px; font-size:13px; color:var(--ink); line-height:1.45; margin-top:11px}
+.rc-note b{font-family:"Golos Text"; color:var(--sea-deep)}
+.rc-list{display:flex; flex-direction:column; gap:8px}
+.rc-item{display:flex; gap:9px; align-items:flex-start; font-size:14px; color:var(--ink); line-height:1.45}
+.rc-item .dot{width:7px;height:7px;border-radius:50%;background:var(--sea);flex:none;margin-top:6px}
+.rc-item b{font-family:"Golos Text"}
+.contra .rc-item .dot{background:var(--warn)}
+.rc-warn{display:flex; gap:9px; align-items:flex-start; background:var(--warn-soft); border:1px solid var(--warn-line); border-radius:10px; padding:11px 13px; font-size:13.5px; color:var(--ink); line-height:1.45; margin-top:8px}
+.rc-warn svg{color:var(--warn); flex:none; margin-top:1px}
+.rc-warn b{font-family:"Golos Text"; color:var(--warn)}
+
+.footnote{margin-top:22px; padding-top:16px; border-top:1px solid var(--line); font-size:12.5px; color:var(--ink3); line-height:1.6; max-width:74ch}
+.footnote b{color:var(--ink2); font-family:"Golos Text"}
+</style>
+
+<header>
+  <div class="hwrap">
+    <div class="brand"><b>МАРЕВІС</b><span>скрипт дозвону · стара база</span></div>
+    <button class="tbtn" id="theme">◐ Тема</button>
+  </div>
+</header>
+
+<main>
+  <p class="lead"><b>Скелет дзвінка + довідник під рукою.</b> Зліва — скрипт по кроках (привітання → навіщо → кнопка проблеми з питаннями → презентація з його слів → заперечення 5×4 → закриття). Справа — товар: <b>склад, як приймати, протипоказання</b>. Хороший менеджер нарощує скелет сам. <span class="ph">[у дужках золотим]</span> — підставляє оператор.</p>
+
+  <div class="wrap">
+    <!-- LEFT: SCRIPT -->
+    <div class="left">
+      <div class="step">
+        <div class="shead"><span class="snum">1</span><h2>Привітання</h2><span class="hint">коротко, 5 сек</span></div>
+        <div class="sbody">
+          <div class="say"><div class="lbl">Кажемо</div>
+            <p>«Добрий день! Мене звати <span class="ph">[Ім'я]</span>, я експерт чоловічого здоров'я компанії «Маревіс». Ви раніше замовляли в нас товари для чоловічого здоров'я.»</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="shead"><span class="snum">2</span><h2>Навіщо телефонуємо + тон</h2><span class="hint">коротка обознака</span></div>
+        <div class="sbody">
+          <div class="say"><div class="lbl">Кажемо</div>
+            <p>«Телефоную ось у якій справі: ми оновлюємо базу постійних клієнтів і хочемо підібрати саме те, що вам реально підійде під вашу ситуацію.»</p>
+            <p>«Скажіть, будь ласка, як у вас зараз справи з чоловічим здоров'ям — що турбує найбільше?»</p>
+          </div>
+          <div class="note">Мета — зрозуміти, що людина хоче вирішити, і піти в потрібну гілку.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="shead"><span class="snum">3</span><h2>Гілка проблеми — тиснемо кнопку</h2><span class="hint">5–10 питань</span></div>
+        <div class="sbody">
+          <div class="tabs">
+            <button class="tab on" data-b="potency">
+              <div class="t"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>Потенція</div>
+              <div class="d">ерекція, близькість, струя, сім'явипорскування</div>
+            </button>
+            <button class="tab" data-b="prostate">
+              <div class="t"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Простатит</div>
+              <div class="d">нічні підйоми, спосіб життя, холод</div>
+            </button>
+          </div>
+          <div class="branch on" id="b-potency">
+            <div class="qintro">Ставимо 5–7 питань, даємо виговоритись, чуємо болі:</div>
+            <div class="qlist" id="q-potency"></div>
+          </div>
+          <div class="branch" id="b-prostate">
+            <div class="qintro">Ставимо 5–7 питань, даємо виговоритись, чуємо болі:</div>
+            <div class="qlist" id="q-prostate"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="shead"><span class="snum">4</span><h2>Презентація — з його ж слів</h2><span class="hint">від потреби</span></div>
+        <div class="sbody">
+          <div class="say"><div class="lbl">Кажемо</div>
+            <p>«Дивіться, <span class="ph">[Ім'я]</span>. З ваших слів я правильно зрозумів: у вас <span class="ph">[проблема його словами]</span>. Правильно?»</p>
+            <p>«Якраз для цього вам підійде <span class="ph">[продукт]</span> — він <span class="ph">[що робить під цю проблему]</span>. На курс потрібно <span class="ph">[N]</span> баночок, це <span class="ph">[ціна]</span>.»</p>
+          </div>
+          <div class="note">Спершу повторюємо його проблему його словами → потім рішення → потім ціна. Не навпаки.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="shead"><span class="snum">5</span><h2>Заперечення — кнопка, 4 варіанти</h2><span class="hint">5 випадків</span></div>
+        <div class="sbody"><div class="objgrid" id="objgrid"></div></div>
+      </div>
+
+      <div class="step">
+        <div class="shead"><span class="snum">6</span><h2>Закриття — вибір без вибору</h2><span class="hint">завжди закриваємо</span></div>
+        <div class="sbody">
+          <div class="close-box"><div class="lbl">Кажемо</div>
+            <p>«По тому, що ви розповіли, вам підійде <span class="ph">[продукт]</span> — <span class="ph">[N]</span> баночок на курс. Кажіть, куди відправляти.»</p>
+            <p>«Вам зручніше повний курс на <span class="ph">[N]</span> чи почати з <span class="ph">[менше]</span>? І на яке відділення Нової Пошти?»</p>
+          </div>
+          <div class="note">Не питаємо «брати чи ні», а даємо вибір між варіантами. Оплата на пошті при отриманні.</div>
+        </div>
+      </div>
+
+      <div class="footnote">
+        <b>Це макет-зразок для Ігоря.</b> Скелет навмисно короткий — менеджер нарощує його сам. Тексти в <span class="ph">[дужках]</span> (ім'я, проблема, продукт, ціна) підставляє оператор. Гілки, заперечення й довідник можна доповнювати.
+      </div>
+    </div>
+
+    <!-- RIGHT: PRODUCT REFERENCE -->
+    <div class="right">
+      <div class="refcard">
+        <div class="rc-head">
+          <h3><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.5L4.5 19a2 2 0 0 0 1.7 3h11.6a2 2 0 0 0 1.7-3L14 9.5V2"/><path d="M8 2h8M7 14h10"/></svg>Довідник товару · RAISE</h3>
+          <div class="sub">завжди перед очима</div>
+        </div>
+        <div class="rc-btns">
+          <button class="on" data-r="sklad">Склад</button>
+          <button data-r="pryjom">Як приймати</button>
+          <button data-r="contra">Протипоказання</button>
+        </div>
+        <div class="rc-body">
+          <div class="rc-panel on" id="r-sklad"></div>
+          <div class="rc-panel" id="r-pryjom"></div>
+          <div class="rc-panel" id="r-contra"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+const Q = {
+  potency: [
+    "Ранкова ерекція буває? Регулярно чи рідко?",
+    "Під час близькості бувають збої — коли підводить?",
+    "Ерекція тримається до кінця чи спадає?",
+    "Як напір струї при сечовипусканні — нормальний?",
+    "Сім'явипорскування не занадто швидке?",
+    "Потяг, бажання — як раніше чи знизилось?",
+    "Як часто зараз буває близькість?"
+  ],
+  prostate: [
+    "Як часто встаєте вночі в туалет?",
+    "Робота сидяча чи рухлива?",
+    "Часто переохолоджуєтесь, сидите в холоді?",
+    "Є дискомфорт або тяжкість унизу живота?",
+    "Струя нормальна чи переривчаста, слабка?",
+    "Буває печіння або біль при сечовипусканні?",
+    "Раніше були застуди чи запалення по чоловічій частині?"
+  ]
+};
+
+const OBJ = [
+  { label:"Дорого", quote:"«немає грошей», «дешевше є»", variants:[
+    "«Розумію. Розділимо: дорого зараз по грошах, чи бо не впевнені в результаті? Щоб я правильно допоміг.»",
+    "«Порахуйте: упаковки вистачає надовго, виходить копійки на день — менше за пачку цигарок.»",
+    "«Головне — платите на пошті, коли отримали й потримали в руках. Грошима не ризикуєте взагалі.»",
+    "«Візьмемо не максимум — менший набір. Спробуєте, самі відчуєте, далі вирішите. Так спокійніше?»"
+  ]},
+  { label:"Треба подумати", quote:"«я подумаю»", variants:[
+    "«Звісно. Зазвичай «подумаю» — це або ціна, або сумнів, що подіє. У вас що з двох?»",
+    "«Думати нема над чим: оплата на пошті, товар спершу в руках — ризикуєте нулем.»",
+    "«Поки думаєте, з цієї партії може закінчитись. Закріплю за вами, рішення заберете при отриманні.»",
+    "«Що саме зупиняє? Скажіть прямо — і я відразу відповім, щоб ви не гадали.»"
+  ]},
+  { label:"Не вірю, що поможе", quote:"«усе це пустушки»", variants:[
+    "«Правильно, що питаєте. Скажу як є: діє одразу, бо тут аптечна сила, а не «трава на удачу».»",
+    "«Перевірити просто: приймаєте за годину до близькості — і бачите результат того ж вечора.»",
+    "«Ми на ринку з 2018 року, понад сто тисяч чоловіків замовили. Пустушку стільки не беруть.»",
+    "«І гарантія: не підійшло — на пошті не викуповуєте. Ризикуєте лише однією спробою.»"
+  ]},
+  { label:"Вже пробував — марно", quote:"«пив таке, не подіяло»", variants:[
+    "«А що пробували — трав'яне щось? Ось і причина: голі трави працюють слабо й довго.»",
+    "«Тут аптечна сила — працює одразу, за годину, а не «пий місяць і сподівайся».»",
+    "«Часто справа в прийомі: капсула саме за годину до акту. Пробували так?»",
+    "«Перевірте на одній упаковці, оплата на пошті. Не спрацює — просто не замовите ще.»"
+  ]},
+  { label:"Не довіряю / розвод", quote:"«а раптом обдурять»", variants:[
+    "«Розумію, шахраїв багато. Тому й не прошу вірити на слово.»",
+    "«Оплата при отриманні: гроші віддаєте, коли посилка вже у вас у руках на пошті.»",
+    "«Упаковка нейтральна, без назви — ніхто не дізнається, що всередині.»",
+    "«Не сподобається — не викуповуєте, і все. Ризик рівно нуль.»"
+  ]}
+];
+
+const REF = {
+  sklad: `
+    <div class="ing">
+      <div class="row"><div class="top"><span class="nm">Даміана</span><span class="mg">100 мг</span></div><div class="tt">Трава-афродизіак: повертає бажання, потяг, сексуальну активність.</div></div>
+      <div class="row"><div class="top"><span class="nm">Піджеум (африканська слива)</span><span class="mg">100 мг</span></div><div class="tt">Для простати: менше нічних підйомів і дискомфорту.</div></div>
+      <div class="row"><div class="top"><span class="nm">Золотий корінь (родіола)</span><span class="mg">100 мг</span></div><div class="tt">Адаптоген: енергія, тонус, витривалість, менше стресу.</div></div>
+      <div class="row"><div class="top"><span class="nm">Аптечна сила</span><span class="mg">50 мг</span></div><div class="tt">Миттєве кровонаповнення → тверда ерекція у відповідь на збудження, за годину до акту. Клієнту — «аптечна сила, та сама, що в таблетці»; пряме слово-рецепт кажемо лише за клієнтом (скептику, хто вже бере аптечне).</div></div>
+    </div>
+    <div class="rc-note"><b>Як діє:</b> одразу — сила (ерекція того ж вечора) + накопичувально — трави (простата, бажання, енергія) при регулярному прийомі.</div>`,
+  pryjom: `
+    <div class="rc-list">
+      <div class="rc-item"><span class="dot"></span><div><b>1 капсула за 1 годину</b> до близькості, запити водою.</div></div>
+      <div class="rc-item"><span class="dot"></span><div>Не більше <b>1 капсули на добу</b>.</div></div>
+      <div class="rc-item"><span class="dot"></span><div>Упаковка — <b>10 капсул</b> = 10 разів.</div></div>
+      <div class="rc-item"><span class="dot"></span><div>Регулярний прийом → <b>накопичувальний ефект</b> трав (простата, бажання, енергія).</div></div>
+      <div class="rc-item"><span class="dot"></span><div>Не поєднувати з <b>алкоголем</b> (гасить ефект).</div></div>
+    </div>
+    <div class="rc-note"><b>Дієтична добавка</b>, не лікарський засіб. Зберігати до 25°C, термін 24 міс.</div>`,
+  contra: `
+    <div class="rc-list contra">
+      <div class="rc-item"><span class="dot"></span><div><b>Серцево-судинні захворювання</b> — головне протипоказання.</div></div>
+      <div class="rc-item"><span class="dot"></span><div>Ниркова недостатність, захворювання печінки.</div></div>
+      <div class="rc-item"><span class="dot"></span><div>Індивідуальна непереносимість компонентів.</div></div>
+      <div class="rc-item"><span class="dot"></span><div>До 18 років.</div></div>
+    </div>
+    <div class="rc-warn"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><div><b>Стоп-сигнал:</b> згадав серце, тиск, нітрати чи серцеві ліки — НЕ продаємо, чемно відпускаємо. Аптечна сила з нітратами небезпечна. Це питання безпеки, а не викупу.</div></div>`
+};
+
+/* render */
+function fillQ(id, arr){ document.getElementById(id).innerHTML = arr.map(q=>`<div class="q"><span>${q}</span></div>`).join(""); }
+fillQ("q-potency", Q.potency);
+fillQ("q-prostate", Q.prostate);
+
+document.querySelectorAll(".tab").forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
+    document.querySelectorAll(".branch").forEach(x=>x.classList.remove("on"));
+    t.classList.add("on");
+    document.getElementById("b-"+t.dataset.b).classList.add("on");
+  };
+});
+
+document.getElementById("objgrid").innerHTML = OBJ.map((o,i)=>`
+  <div class="obj" id="obj-${i}">
+    <button onclick="document.getElementById('obj-${i}').classList.toggle('open')">
+      <span class="otitle">${o.label}</span><span class="quote">${o.quote}</span><span class="chev">›</span>
+    </button>
+    <div class="variants">${o.variants.map((v,n)=>`<div class="variant"><span class="vn">${n+1}</span><p>${v}</p></div>`).join("")}</div>
+  </div>`).join("");
+
+Object.keys(REF).forEach(k=>{ document.getElementById("r-"+k).innerHTML = REF[k]; });
+document.querySelectorAll(".rc-btns button").forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll(".rc-btns button").forEach(x=>x.classList.remove("on"));
+    document.querySelectorAll(".rc-panel").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");
+    document.getElementById("r-"+b.dataset.r).classList.add("on");
+  };
+});
+
+const root=document.documentElement;
+document.getElementById("theme").onclick=()=>{
+  const cur=root.getAttribute("data-theme");
+  const sysDark=matchMedia("(prefers-color-scheme: dark)").matches;
+  root.setAttribute("data-theme", cur ? (cur==="dark"?"light":"dark") : (sysDark?"light":"dark"));
+};
+</script>
